@@ -1,0 +1,1744 @@
+{
+	"info": {
+		"_postman_id": "3cc95d02-531c-4916-a025-57e413d09684",
+		"name": "Bookstore17Vezba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30283788"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"userID\", pm.response.json().userID);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Ivi55\",\r\n  \"password\": \"QA123@Ivi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().token);\r",
+									"\r",
+									"pm.test(\"Status is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"Success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.result).to.eql(\"User authorized successfully.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"DragoljubW5\",\r\n  \"password\": \"Qwerty123!@#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{tokenParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{tokenParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"DragoljubW3\",\r\n  \"password\": \"Qwerty123!@#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{authParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{authParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookstore",
+			"item": [
+				{
+					"name": "Get all books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"ISBN1\", pm.response.json().books[0].isbn);\r",
+									"\r",
+									"pm.environment.set(\"ISBN2\", pm.response.json().books[1].isbn);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add book to user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"collectionOfIsbns\": [\r\n    {\r\n      \"isbn\": \"{{ISBN1}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove all books from user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}?UserId={{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							],
+							"query": [
+								{
+									"key": "UserId",
+									"value": "{{userID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{singleBookParam}}?ISBN={{ISBN1}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{singleBookParam}}"
+							],
+							"query": [
+								{
+									"key": "ISBN",
+									"value": "{{ISBN1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a book from user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"isbn\": \"{{ISBN1}}\",\r\n  \"userId\": \"{{userID}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{singleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{singleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"isbn\": \"{{ISBN2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}/{{ISBN1}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}",
+								"{{ISBN1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Runner",
+			"item": [
+				{
+					"name": "Create new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"userID\", pm.response.json().userID);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena555\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token for new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().token);\r",
+									"\r",
+									"pm.test(\"Status is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"Success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.result).to.eql(\"User authorized successfully.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena555\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{tokenParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{tokenParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user with no books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"\r",
+									"    pm.test(\"User doesn't have any books\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.books).to.be.empty;\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add book to new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"collectionOfIsbns\": [\r\n    {\r\n      \"isbn\": \"{{ISBN1}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user with a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"\r",
+									"    pm.test(\"User has book\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.books).to.not.be.empty;\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a book from new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"isbn\": \"{{ISBN1}}\",\r\n  \"userId\": \"{{userID}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{singleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{singleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user with no books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"\r",
+									"    pm.test(\"User doesn't have any books\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.books).to.be.empty;\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Runner2",
+			"item": [
+				{
+					"name": "Create new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"userID\", pm.response.json().userID);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena666\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token for new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().token);\r",
+									"\r",
+									"pm.test(\"Status is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"Success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.result).to.eql(\"User authorized successfully.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena666\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{tokenParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{tokenParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add book to new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"collectionOfIsbns\": [\r\n    {\r\n      \"isbn\": \"{{ISBN1}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"isbn\": \"{{ISBN2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}/{{ISBN1}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}",
+								"{{ISBN1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove all books from user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}?UserId={{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							],
+							"query": [
+								{
+									"key": "UserId",
+									"value": "{{userID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user with no books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"\r",
+									"    pm.test(\"User doesn't have any books\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.books).to.be.empty;\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Runner3",
+			"item": [
+				{
+					"name": "Create new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"userID\", pm.response.json().userID);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena1234\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token for new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.json().token);\r",
+									"\r",
+									"pm.test(\"Status is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"Success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.result).to.eql(\"User authorized successfully.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena1234\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{tokenParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{tokenParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Irena1234\",\r\n  \"password\": \"QA@32bootcamp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{authParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{authParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add book to user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"collectionOfIsbns\": [\r\n    {\r\n      \"isbn\": \"{{ISBN1}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add another book to user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"{{userID}}\",\r\n  \"collectionOfIsbns\": [\r\n    {\r\n      \"isbn\": \"{{ISBN2}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove all books from user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURI}}/{{bookstoreParam}}/{{multipleBookParam}}?UserId={{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{bookstoreParam}}",
+								"{{multipleBookParam}}"
+							],
+							"query": [
+								{
+									"key": "UserId",
+									"value": "{{userID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user with no books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User ID is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userId).to.eql(pm.environment.get(\"userID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Username is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).not.equal(null);\r",
+									"\r",
+									"    pm.test(\"User doesn't have any books\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.books).to.be.empty;\r",
+									"});\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURI}}/{{accountParam}}/{{userParam}}/{{userID}}",
+							"host": [
+								"{{baseURI}}"
+							],
+							"path": [
+								"{{accountParam}}",
+								"{{userParam}}",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
